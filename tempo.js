@@ -279,7 +279,9 @@ var Tempo = (function (tempo) {
                     var val = null;
 
                     // Handling tempo_info variable
-                    if (utils.startsWith(variable, '_tempo.')) {
+                    if (variable === '.') {
+                        return i;
+                    } else if (utils.startsWith(variable, '_tempo.')) {
                         return eval(variable);
                     }
 
@@ -324,7 +326,9 @@ var Tempo = (function (tempo) {
                     var val = null;
 
                     // Handling tempo_info variable
-                    if (utils.startsWith(variable, '_tempo.')) {
+                    if (variable === '.') {
+                        return i;
+                    } else if (utils.startsWith(variable, '_tempo.')) {
                         return eval(variable);
                     }
 
