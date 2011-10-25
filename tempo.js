@@ -391,23 +391,24 @@ var Tempo = (function (tempo) {
 
             if (template && i) {
                 utils.notify(this.listener, new TempoEvent(TempoEvent.Types.ITEM_RENDER_STARTING, i, template));
-
                 var nestedDeclaration = template.innerHTML.match(/data-template="(.*?)"/g);
                 if (nestedDeclaration) {
                     for (var p = 0; p < nestedDeclaration.length; p++) {
-                        var nested = nestedDeclaration[p].match(/"(.*?)"/)[1];
-                        // if (eval('i.' + nested)) {
-                        var t = new Templates(renderer.templates.params, nested);
-                        t.parse(template);
+                        var nested = nestedDeclaration[p].match(/"(.*?)"/)[1]
+                           ,data = eval('i.' + nested);
+                        if (data) {
+                            var t = new Templates(renderer.templates.params, nested);
+                            t.parse(template);
 
-                        var r = new Renderer(t);
-                        r.render(eval('i.' + nested));
-                        // }
+                            var r = new Renderer(t);
+                            r.render(data);
+                        }
                     }
                 }
 
                 // Dealing with HTML as a String from now on (to be reviewed)
                 // Attribute values are escaped in FireFox so making sure there are no escaped tags
+                // TODO unescape custom tag delimiters
                 var html = template.innerHTML.replace(/%7B%7B/g, '{{').replace(/%7D%7D/g, '}}');
 
                 // Tags
